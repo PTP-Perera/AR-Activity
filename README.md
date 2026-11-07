@@ -1,24 +1,41 @@
-# AR Artifact Tracker: Map of Infinity
-An interactive Augmented Reality experience developed using HTML, A-Frame, and AR.js. This project transforms a standard AR.js Hiro marker into a localized heads-up display tracking scattered pieces of the Map of Infinity.
+# Astral Relics AR Museum
 
-Key Features:
+A small Hiro-marker museum exhibit built with A-Frame and AR.js. It displays a
+Damaged Helmet model on a rotating pedestal, with a floating color-changing
+orb, an animated gold display piece, exhibit labels, and a marker status banner.
 
-Marker Tracking: Renders a multi-object 3D scene when a Hiro marker is detected by the device camera.
+## Run the exhibit
 
-Dynamic UI Banner: Includes a live DOM overlay banner that updates its text and background color based on marker visibility events (markerFound and markerLost).
+The camera needs a secure context. Serve the project from an HTTPS host, then
+open its `index.html` URL on a phone and allow camera access. Print or display a
+Hiro marker and hold it in view.
 
-Custom Interactivity: Features custom A-Frame JavaScript components allowing users to tap 3D objects to trigger state changes (color cycling and size scaling).
+- Tap the blue orb to change its color.
+- Tap the helmet to toggle its size.
 
-Animations: Utilizes A-Frame animation components for continuous rotation and positional looping on primitive shapes.
+The GLB file must stay alongside `index.html` when hosting the project.
 
-Custom 3D Models: Integrates an external .glb 3D model into the marker scene.
+## Model credit and license
 
-Technologies Used:
+The exhibit uses **Damaged Helmet**, a fictional flight helmet model by
+**ctxwing**, downloaded from the
+[Khronos glTF Sample Assets repository](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/DamagedHelmet).
+The repository credits ctxwing for rebuilding and converting the model under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). It also credits
+**theblueturtle_** for the earlier version under
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The earlier
+version's non-commercial condition applies; this school exhibit is intended for
+non-commercial educational use. The repository notes that the model was
+re-exported from Blender for the final glTF 2.0 specification.
 
-HTML5 / CSS3
+## Publish and test
 
-JavaScript
+1. Publish `index.html`, `DamagedHelmet.glb`, and this README using Netlify Drop
+   or GitHub Pages. Use the resulting HTTPS URL.
+2. Open that URL on a phone, grant camera permission, and check that the Hiro
+   marker triggers both banner states.
+3. Check that the orb changes color and the helmet grows and returns to size
+   when tapped.
 
-A-Frame (WebVR/WebXR framework)
-
-AR.js (Lightweight WebAR tracking)
+The project files are prepared for hosting, but an HTTPS deployment and
+physical-phone test still need to be completed by the project owner.

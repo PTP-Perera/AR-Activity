@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Astral Relics | AR Museum Exhibit</title>
+
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #status-banner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      color: #fff8df;
+      background-color: #9c3d32;
+      z-index: 1000;
+      pointer-events: none;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+
+  <script>
+    AFRAME.registerComponent('change-color', {
+      init: function () {
+        const colors = ['#e76f51', '#e9c46a', '#2a9d8f', '#457b9d', '#9b5de5'];
+        this.el.addEventListener('click', () => {
+          const randomIndex = Math.floor(Math.random() * colors.length);
+          this.el.setAttribute('color', colors[randomIndex]);
+        });
+      }
+    });
+
+    AFRAME.registerComponent('grow-on-click', {
+      init: function () {
+        let isGrown = false;
+        this.el.addEventListener('click', () => {
+          const scale = isGrown ? 0.38 : 0.5;
+          this.el.setAttribute('scale', `${scale} ${scale} ${scale}`);
+          isGrown = !isGrown;
+        });
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const marker = document.querySelector('#hiro-marker');
+      const banner = document.querySelector('#status-banner');
+
+      if (!marker || !banner) {
+        console.error('The AR exhibit is missing its marker or status banner.');
+        return;
+      }
+
+      marker.addEventListener('markerFound', () => {
+        banner.textContent = 'ASTRAL RELICS  |  EXHIBIT LOCKED ON';
+        banner.style.backgroundColor = '#28634d';
+      });
+
+      marker.addEventListener('markerLost', () => {
+        banner.textContent = 'ASTRAL RELICS  |  SCANNING FOR HIRO MARKER...';
+        banner.style.backgroundColor = '#9c3d32';
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="status-banner" role="status" aria-live="polite">
+    ASTRAL RELICS  |  SCANNING FOR HIRO MARKER...
+  </div>
+
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+    <a-assets>
+      <a-asset-item id="artifact-model" src="DamagedHelmet.glb"></a-asset-item>
+    </a-assets>
+
+    <a-marker preset="hiro" id="hiro-marker" emitevents="true">
+      <a-text value="ASTRAL RELICS  /  EXHIBIT 01" position="0 1.75 0"
+              align="center" color="#fff0bd" width="3.5"></a-text>
+
+      <a-cylinder position="0 0.12 0" radius="0.48" height="0.24"
+                  color="#8c6239" material="metalness: 0.65; roughness: 0.3"></a-cylinder>
+      <a-torus position="0 0.28 0" radius="0.48" radius-tubular="0.025"
+               color="#e9c46a"
+               animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
+      </a-torus>
+
+      <a-entity gltf-model="#artifact-model" position="0 0.43 0"
+                scale="0.38 0.38 0.38" class="clickable" grow-on-click></a-entity>
+
+      <a-sphere position="-0.8 0.72 0" radius="0.12" color="#457b9d"
+                class="clickable" change-color
+                animation="property: position; to: -0.8 0.95 0; dir: alternate; loop: true; dur: 1400; easing: easeInOutSine">
+      </a-sphere>
+
+      <a-box position="0.82 0.55 0" width="0.18" height="0.18" depth="0.18"
+             color="#e9c46a" material="metalness: 0.7; roughness: 0.25"
+             animation="property: rotation; to: 360 360 0; loop: true; dur: 5000; easing: linear">
+      </a-box>
+
+      <a-text value="THE DAMAGED HELMET" position="0 1.48 0"
+              align="center" color="#f4a261" width="3"></a-text>
+    </a-marker>
+
+    <a-entity camera>
+      <a-entity cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .clickable"></a-entity>
+    </a-entity>
+
+  </a-scene>
+</body>
+</html>
